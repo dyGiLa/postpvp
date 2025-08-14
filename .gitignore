@@ -3,3 +3,8 @@
 *.pvti
 *.png
 *.py~
+*.md~
+tip*.md
+
+**/__pycache__/*.pyc
+state-saved/
