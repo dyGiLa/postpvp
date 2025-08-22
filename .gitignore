@@ -5,6 +5,7 @@
 *.py~
 *.md~
 tip*.md
+tip*.py
 
 **/__pycache__/*.pyc
 state-saved/
