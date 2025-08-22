@@ -8,6 +8,7 @@ tip*.md
 tip*.py
 *.txt
 *.py.md
+*.txt.md
 
 **/__pycache__/*.pyc
 state-saved/
