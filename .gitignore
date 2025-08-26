@@ -12,3 +12,4 @@ tip*.py
 
 **/__pycache__/*.pyc
 state-saved/
+**/test/
