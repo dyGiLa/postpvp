@@ -3,8 +3,7 @@ from vtkmodules.util.vtkAlgorithm import VTKPythonAlgorithmBase
 from vtkmodules.vtkParallelCore import vtkMultiProcessController
 
 from vtkmodules.vtkCommonCore import vtkPoints, vtkFloatArray
-from vtkmodules.vtkCommonDataModel import vtkPolyData
-from vtkmodules.vtkCommonDataModel import vtkCellArray
+from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkHexahedron, vtkCellArray
 
 from vtk.numpy_interface import dataset_adapter as dsa
 from vtk.numpy_interface import algorithms as algs
@@ -22,17 +21,22 @@ np.set_printoptions(precision=10)
 from paraview.util.vtkAlgorithm import smproxy, smproperty, smdomain
 
 
-@smproxy.filter(label="MNL-A-phase-A-matrix Filter")
+@smproxy.filter(label="DMNL-A-phase-A-matrix Filter")
 @smproperty.input(name="Input")
-class mnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
+class dmnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
     def __init__(self):
-        VTKPythonAlgorithmBase.__init__(self)
+        VTKPythonAlgorithmBase.__init__(
+            # The following are matter for PV recognize Unstrctured grid
+            self,
+            nInputPorts=1,
+            nOutputPorts=1,
+            outputType='vtkUnstructuredGrid'
+        )
         
     def RequestData(self, request, inInfo, outInfo):
         
         data=dsa.WrapDataObject(vtkDataSet.GetData(inInfo[0]))
 
-        # pMarker_Array=data.PointData['phaseMarker'][0:512]
         u11_Array=data.PointData['u11']
         u12_Array=data.PointData['u12']
         u13_Array=data.PointData['u13']
@@ -83,7 +87,8 @@ class mnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
         self.l3_arr = np.zeros_like(u11_Array, dtype=float)
 
         # declare the output handling
-        vtk_output = vtkDataSet.GetData(outInfo)
+        # vtk_output = vtkDataSet.GetData(outInfo)
+        vtk_output = vtkUnstructuredGrid()
 
         # declare the lattice sites output handing
         points = vtkPoints()
@@ -185,21 +190,44 @@ class mnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
 
         ###############################
         #   paraview pipline output   #
-        ###############################        
+        ###############################
+
+        #################################################        
+        # --- volumetric cell connectivity handling --- #
+        
+        # --- build right 3D cell data and put on vtkUnstureGrid --- #        
         vtk_output.SetPoints(points)
 
-        numCells = (dim-1)*(dim-1)*(dim-1)
-        # print("numCells", numCells)
-        verts = vtkCellArray()
-        for i in range(numCells):
-            verts.InsertNextCell(1)
-            verts.InsertCellPoint(i)
-        vtk_output.SetVerts(verts)    
+        hexs = vtkCellArray()
+        for z in range(dim - 1):
+            for y in range(dim - 1):
+                for x in range(dim - 1):
+                    p0 = x + y * dim + z * dim * dim
+                    p1 = p0 + 1
+                    p2 = p0 + dim + 1
+                    p3 = p0 + dim
+                    p4 = p0 + dim * dim
+                    p5 = p4 + 1
+                    p6 = p4 + dim + 1
+                    p7 = p4 + dim
 
-        # Now wrap after copy
-        # output = dsa.WrapDataObject(vtk_output)
+                    hex_cell = vtkHexahedron()
+                    hex_cell.GetPointIds().SetId(0, p0)
+                    hex_cell.GetPointIds().SetId(1, p1)
+                    hex_cell.GetPointIds().SetId(2, p2)
+                    hex_cell.GetPointIds().SetId(3, p3)
+                    hex_cell.GetPointIds().SetId(4, p4)
+                    hex_cell.GetPointIds().SetId(5, p5)
+                    hex_cell.GetPointIds().SetId(6, p6)
+                    hex_cell.GetPointIds().SetId(7, p7)
 
-        # num_points = output.GetNumberOfPoints()
+                    hexs.InsertNextCell(hex_cell)
+
+        vtk_output.SetCells(vtkHexahedron().GetCellType(), hexs)
+
+        # --- volumetric cell connectivity handling --- #        
+        #################################################
+        
         num_points = data.VTKObject.GetNumberOfPoints()
         # print("num_points :", num_points)
         # print("len(self.phi_arr) :", len(self.phi_arr), "self.phi_arr.shape : ", self.phi_arr.shape)
@@ -260,5 +288,8 @@ class mnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
         #     print("-", vtk_output.GetPointData().GetArrayName(i))
 
         vtk_output.GetPointData().SetActiveScalars("U1_phi")
+
+        # copy every things data, points, cells back to ParaView
+        vtkDataSet.GetData(outInfo).ShallowCopy(vtk_output)
         
         return 1
