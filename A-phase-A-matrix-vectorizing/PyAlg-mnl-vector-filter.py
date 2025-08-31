@@ -22,7 +22,7 @@ np.set_printoptions(precision=10)
 from paraview.util.vtkAlgorithm import smproxy, smproperty, smdomain
 
 
-@smproxy.filter(label="mnl-A-phase-A-matrix Filter")
+@smproxy.filter(label="MNL-A-phase-A-matrix Filter")
 @smproperty.input(name="Input")
 class mnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
     def __init__(self):
