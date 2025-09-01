@@ -12,8 +12,8 @@ from vtk.util.numpy_support import numpy_to_vtk
 import sys
 
 import os
-sys.path.append("/home/heidi/Documents/SCC-GL-calculator")
-import Module_GLSCC_calculator as sc
+# sys.path.append("./SCC-GL-calculator")
+# import Module_GLSCC_calculator as sc
 
 import numpy as np
 np.set_printoptions(precision=10)
@@ -125,7 +125,7 @@ class dmnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
                     u_values = uxx.reshape(3, 3)
                     v_values = vxx.reshape(3, 3)
                     A = u_values + 1j * v_values
-                    print("A = ",A)    
+                    # print("A = ",A)    
 
                     # compute gapA
                     Delta_A = np.sqrt(np.trace(A.conj().T @ A).real)
@@ -138,7 +138,7 @@ class dmnl_A_phase_A_matrix_Class(VTKPythonAlgorithmBase):
 
                     # --- Normalize d ---
                     d_raw = U[:, 0]
-                    print("U[:, 0] = ", U[:, 0])
+                    # print("U[:, 0] = ", U[:, 0])
                     d = np.real(d_raw)
                     d /= np.linalg.norm(d)
 
