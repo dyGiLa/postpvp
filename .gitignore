@@ -10,6 +10,7 @@ tip*.py
 *.py.md
 *.txt.md
 trace*
+test*
 
 **/__pycache__/*.pyc
 state-saved/
