@@ -107,7 +107,7 @@ class scc_GL_Grad_FEnergy_mpi_Class(VTKPythonAlgorithmBase):
                 
                         pkAaljpjACalk_pt += grad_Aalj[k] * np.conj(grad_Aalk[j])
 
-             f_grad[pt] += np.real(pjAaljpkACalk_pt) + np.real(pkAaljpjACalk_pt)             
+            f_grad[pt] += np.real(pjAaljpkACalk_pt) + np.real(pkAaljpjACalk_pt)             
                 
         ###############################
         #   paraview pipline output   #
