@@ -45,17 +45,19 @@ class scc_GL_Grad_FEnergy_mpi_Class(VTKPythonAlgorithmBase):
             for i in range(3):
                 re = get_grad_A_al_i(f"grad_u{al+1}{i+1}")  # shape (3, N), N = n_points
                 print("re is ", re)
-                im = get_grad_A_al_i(f"grad_v{al+1}{i+1}")
+                im = get_grad_A_al_i(f"grad_v{al+1}{i+1}")  # shape (3, N), N = n_points
                 print("im is ", im)
                 grad_A[(al,i)] = re + 1j * im  # complex vector gradient per component
-                     
-        # Now compute scalar field f_grad(x)
+
+        ####################################                        
+        # compute OP field f_grad(x)
+        ####################################                
         f_grad = np.zeros(n_points, dtype=np.float64)
                
         for pt in range(n_points):
 
         # #############################################
-        #               S_pkAaljpkACalj               #
+        #        S_pkAaljpkACalj. Laplacian           #
         # #############################################
             grad_A_x = np.zeros((3,3), dtype=np.complex128)
             grad_A_y = np.zeros((3,3), dtype=np.complex128)
@@ -63,7 +65,9 @@ class scc_GL_Grad_FEnergy_mpi_Class(VTKPythonAlgorithmBase):
     
             for al in range(3):
                 for i in range(3):
-                    grad_vec = grad_A[(al,i)][:, pt]  # 3-vector (\partial_x, \partial_y, \partial_z)
+                    # 3-vector (\partial_x, \partial_y, \partial_z)
+                    grad_vec = grad_A[(al,i)][:, pt]
+                    
                     grad_A_x[al, i] = grad_vec[0]
                     grad_A_y[al, i] = grad_vec[1]
                     grad_A_z[al, i] = grad_vec[2]

@@ -11,7 +11,7 @@ from vtk.util.numpy_support import numpy_to_vtk
 import sys
 
 import os
-sys.path.append("/home/heidi/Documents/SCC-GL-calculator")
+sys.path.append("/home/heidi/Documents/GL-Calculator")
 import Module_GLSCC_calculator as gl
 
 import numpy as np
@@ -39,7 +39,7 @@ class scc_GL_Bulk_FEnergy_mpi_Class(VTKPythonAlgorithmBase):
         n_points = self.data.GetNumberOfPoints()
         print("n_points = ", n_points)
 
-        # Build A_{ij} as complex dictionary; (al, i) are key, A is a dictionary
+        # construct A_{ij} as complex dictionary; (al, i) are key, A is a dictionary
         A = {}
         for al in range(3):
             for i in range(3):
@@ -49,7 +49,9 @@ class scc_GL_Bulk_FEnergy_mpi_Class(VTKPythonAlgorithmBase):
                 print("im is ", im)
                 A[(al,i)] = re + 1j * im  # complex field A_al_i
 
-        # Now compute bulk energy density
+        ####################################        
+        # compute bulk energy density
+        ####################################                
         f_bulk = np.zeros(n_points, dtype=np.float64)
 
         if (self._enable_GapAcomputation == 1):
