@@ -43,9 +43,9 @@ class scc_GL_Grad_FEnergy_mpi_Class(VTKPythonAlgorithmBase):
         grad_A = {}
         for al in range(3):
             for i in range(3):
-                re = get_grad_A_al_i(f"grad_u{al+1}{i+1}")  # shape (3, N), N = n_points
+                re = self.get_grad_A_al_i(f"grad_u{al+1}{i+1}")  # shape (3, N), N = n_points
                 print("re is ", re)
-                im = get_grad_A_al_i(f"grad_v{al+1}{i+1}")  # shape (3, N), N = n_points
+                im = self.get_grad_A_al_i(f"grad_v{al+1}{i+1}")  # shape (3, N), N = n_points
                 print("im is ", im)
                 grad_A[(al,i)] = re + 1j * im  # complex vector gradient per component
 
