@@ -20,8 +20,8 @@ paraview.simple._DisableFirstRenderCameraReset()
 # pvdDataSetRaw = PVDReader(registrationName='Aalj-clip-boxClip-54-L170-32-L195-40-L180_0.pvd',
 #                       FileName='/home/heidi/Documents/B-phase-critical-Bubble/p27-T0.9275/pio/dyGiLa-sim-Amatrix.cycle_001116/Aalj-boxClip-p30-L40-p65-L25-p25-L50.pvtu')
 
-pvtuDataSetRaw = XMLPartitionedUnstructuredGridReader(registrationName='Aalj-boxClip-p30-L40-p65-L25-p25-L50.pvtu',
-                                                     FileName=['/home/heidi/Documents/B-phase-critical-Bubble/p27-T0.9275/pio/dyGiLa-sim-Amatrix.cycle_001116/Aalj-boxClip-p30-L40-p65-L25-p25-L50.pvtu'])
+pvtuDataSetRaw = XMLPartitionedUnstructuredGridReader(registrationName='PlaneClip-x122.5-boxClip-Rotated-gapA-u_ali-v_ali-x70-y80-z72.5-Lx105-Ly100-Lz100.pvtu',
+                                                     FileName=['/home/heidi/Documents/p-27.0bar-T0-0.30-0.40-B-phase-critical-Bubble/E0-866.0125732eV/RSeed-1224-T0-0.3873/p-27.0-T1-12.659350932588-pio-II/pio/dyGiLa-sim-Amatrix_t-000005800.cycle_005800/PlaneClip-x122.5-boxClip-Rotated-gapA-u_ali-v_ali-x70-y80-z72.5-Lx105-Ly100-Lz100.pvtu'])
 
 # Properties modified on pvdDataSet
 #pvdDataSet.PointArrays = ['u11', 'u12', 'u13', 'u21', 'u22', 'u23', 'u31', 'u32', 'u33', 'v11', 'v12', 'v13', 'v21', 'v22', 'v23', 'v31', 'v32', 'v33']
@@ -138,6 +138,6 @@ print("appendAttribute created. ")
 
 # save data
 # SaveData('/scratch/project_2014552/test/pvpost/E01500-RSeed313-p-22.0-T1-18.4684-dyGiLa-sim-Amatrix.cycle_018000/Grad_u_v_alj-boxClip-54-L170-32-L195-40-L180.pvd', proxy=appendAttributes1, ChooseArraysToWrite=1, PointDataArrays=['grad_u11', 'grad_u12', 'grad_u13', 'grad_u21', 'grad_u22', 'grad_u23', 'grad_u31', 'grad_u32', 'grad_u33', 'grad_v11', 'grad_v12', 'grad_v13', 'grad_v21', 'grad_v22', 'grad_v23', 'grad_v31', 'grad_v32', 'grad_v33'], GhostLevel=1)
-SaveData('/home/heidi/Documents/B-phase-critical-Bubble/p27-T0.9275/pio/dyGiLa-sim-Amatrix.cycle_001116/Grad_u_alj-boxClip-p30-L40-p65-L25-p25-L50.pvtu', proxy=appendAttributes1, ChooseArraysToWrite=1, PointDataArrays=['grad_u11', 'grad_u12', 'grad_u13', 'grad_u21', 'grad_u22', 'grad_u23', 'grad_u31', 'grad_u32', 'grad_u33'], GhostLevel=1)
+SaveData('/home/heidi/Documents/p-27.0bar-T0-0.30-0.40-B-phase-critical-Bubble/E0-866.0125732eV/RSeed-1224-T0-0.3873/p-27.0-T1-12.659350932588-pio-II/pio/dyGiLa-sim-Amatrix_t-000005800.cycle_005800/Grad_u_alj-PlaneClip-x122.5-boxClip-Rotated-gapA-u_ali-v_ali-x70-y80-z72.5-Lx105-Ly100-Lz100.pvtu', proxy=appendAttributes1, ChooseArraysToWrite=1, PointDataArrays=['grad_u11', 'grad_u12', 'grad_u13', 'grad_u21', 'grad_u22', 'grad_u23', 'grad_u31', 'grad_u32', 'grad_u33'], GhostLevel=1)
 
 print("appendAttribute created saved. ")
