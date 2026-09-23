@@ -95,11 +95,11 @@ class Grad_Phase_ImTrApjAd_mpi_Class(VTKPythonAlgorithmBase):
                     A_pt[al, i] = A[(al,i)][pt]
 
             # Tr(AdA)
-            invTrAdA_pt = 1./np.trace(np.conj(A_pt.T) @ A_pt)
+            invTrAdA_pt = 1./np.real(np.trace(np.conj(A_pt.T) @ A_pt))
                         
-            mip_Xni[pt] = np.trace(A_pt @ np.conj(grad_A_x_pt.T)) * invTrAdA_pt
-            mip_Yni[pt] = np.trace(A_pt @ np.conj(grad_A_y_pt.T)) * invTrAdA_pt
-            mip_Zni[pt] = np.trace(A_pt @ np.conj(grad_A_z_pt.T)) * invTrAdA_pt
+            mip_Xni[pt] = np.real(np.trace(A_pt @ np.conj(grad_A_x_pt.T))) * invTrAdA_pt
+            mip_Yni[pt] = np.real(np.trace(A_pt @ np.conj(grad_A_y_pt.T))) * invTrAdA_pt
+            mip_Zni[pt] = np.real(np.trace(A_pt @ np.conj(grad_A_z_pt.T))) * invTrAdA_pt
                 
         ###############################
         #   paraview pipline output   #
