@@ -127,3 +127,8 @@ class Grad_Phase_ImTrApjAd_mpi_Class(VTKPythonAlgorithmBase):
     # Helper to get gradients
     def get_grad_A_al_i(self, name):
         return np.array([self.data.PointData[f"{name}"][:, i] for i in range(3)])
+
+    # Helper to get gradients
+    def get_A_al_i(self, name):
+        return self.data.PointData[f"{name}"][:]
+    
