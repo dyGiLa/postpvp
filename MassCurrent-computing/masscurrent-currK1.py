@@ -44,6 +44,6 @@ pythonCalculator1 = PythonCalculator(registrationName='PythonCalculator1', Input
 # Properties modified on pythonCalculator19
 pythonCalculator1.Expression = "-inputs[2].PointData['grad_u11']*inputs[1].PointData['v11']-inputs[2].PointData['grad_u12']*inputs[1].PointData['v12']-inputs[2].PointData['grad_u13']*inputs[1].PointData['v13']-inputs[2].PointData['grad_u21']*inputs[1].PointData['v21']-inputs[2].PointData['grad_u22']*inputs[1].PointData['v22']-inputs[2].PointData['grad_u23']*inputs[1].PointData['v23']-inputs[2].PointData['grad_u31']*inputs[1].PointData['v31']-inputs[2].PointData['grad_u32']*inputs[1].PointData['v32']-inputs[2].PointData['grad_u33']*inputs[1].PointData['v33']+inputs[0].PointData['u11']*inputs[3].PointData['grad_v11']+inputs[0].PointData['u12']*inputs[3].PointData['grad_v12']+inputs[0].PointData['u13']*inputs[3].PointData['grad_v13']+inputs[0].PointData['u21']*inputs[3].PointData['grad_v21']+inputs[0].PointData['u22']*inputs[3].PointData['grad_v22']+inputs[0].PointData['u23']*inputs[3].PointData['grad_v23']+inputs[0].PointData['u31']*inputs[3].PointData['grad_v31']+inputs[0].PointData['u32']*inputs[3].PointData['grad_v32']+inputs[0].PointData['u33']*inputs[3].PointData['grad_v33']"
 
-pythonCalculator19.ArrayName = 'currK1'
-pythonCalculator19.CopyArrays = 0
+pythonCalculator1.ArrayName = 'currK1'
+pythonCalculator1.CopyArrays = 0
 
