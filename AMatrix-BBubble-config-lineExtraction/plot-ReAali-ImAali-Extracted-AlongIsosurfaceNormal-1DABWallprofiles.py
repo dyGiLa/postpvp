@@ -7,7 +7,7 @@ from matplotlib import cm
 from matplotlib.lines import Line2D
 
 # ===================== edit these =====================
-RelaxingBubble_xyzAxis_PlotSwitch = 'OFF'
+RelaxingBubble_xyzAxis_PlotSwitch = 'ON'
 data_load_dir = '/home/heidi/Documents/dyGiLa-project/dyGiLa-visualization-images/B-phase-Bubble'
 gapA_isoValue = 3.907 #4.0, 3.95, 3.905, 3.907  # the isovalue gapA, which is used by shift='auto' to locate the center of Wall)
 PlotDataDensity = 10
@@ -18,6 +18,7 @@ PlotDataDensity = 10
 #        or 'auto' = the position where gapA crosses gapA_iso (this becomes r = 0)
 extra = {
     # 'Line-Data-x_axis-A_al_i-l_Vector-parallel-w-AB_Wall.csv': dict(x='Points:0', sign=+1, shift='auto', marker='o', ms=4, every=PlotDataDensity, fc='gold', label=r'$\hat{\mathbf{l}} \parallel \hat{\mathbf{n}}$')
+    'Line-Data-y_axis-A_al_i-along-olive-tips.csv': dict(x='Points:1', sign=+1, shift='auto', marker='o', ms=4, every=PlotDataDensity, fc='gold', label=r'$\hat{\mathbf{l}} \parallel \hat{\mathbf{n}}$',    
     'Line-Data-z_axis-A_al_i-l_Vector-perpendicular-w-AB_Wall.csv': dict(x='Points:2', sign=+1, shift='auto', marker='s', ms=4, every=PlotDataDensity, fc='lightskyblue', label=r'$\hat{\mathbf{l}} \perp \hat{\mathbf{n}}$'),
 }
 r_max = 25.0        # cutoff of plot where r <= r_max (None = no cutoff)
@@ -26,13 +27,16 @@ gapA_color_mark = 'magenta'    # sqrt(A†A) from Mark's flat-wall data
 gapA_color_bubble = 'teal'     # ||A|| from the line_xxxx (relaxing bubble) data
 
 # ******************************************************
-FlatABWalls_PlotSwitch = 'OFF'
-Flat_ABWalls_dir = '/home/heidi/Documents/dyGiLa-project/dyGiLa-visualization-images/B-phase-Bubble/flat-ABWall-Sol-Mark-27bar-0.4Tc/sph_sym_AB_bubble_sol_axis-{:}.csv'
+FlatABWalls_PlotSwitch = 'ON'
+Flat_ABWalls_dir = '/home/heidi/Documents/dyGiLa-project/dyGiLa-visualization-images/B-phase-Bubble/Flat-ABWall-Solution-fromMark-27bar/AB_wall_sol_axis-{:}.csv'
 # header='r,A11,A12,A13,A21,A22,A23,A31,A32,A33'
+gapA_isoValue_FlatWall = 1.99
 
 # axes_id    = [0, 1, 2]
 axes_id    = [2]
-axes_name  = {0: r'$\hat{\mathbf{l}} \parallel \hat{\mathbf{n}},R=\infty$', 1: 'flat wall, $y$', 2: r'$\hat{\mathbf{l}} \perp \hat{\mathbf{n}},R=\infty$'}
+axes_name  = {0: r'$\hat{\mathbf{l}} \parallel \hat{\mathbf{n}},R=\infty$',
+              1: 'flat wall, $y$',
+              2: r'$\hat{\mathbf{l}} \perp \hat{\mathbf{n}},R=\infty$'}
 
 mark_markers = False # True for marker, False no marker
 markers    = {0: '*', 1: 'P', 2: 'X'}   # star, filled plus, filled cross: all different from o and s
@@ -45,8 +49,8 @@ mark_sign  = -1           # -1: x = -(r - r_cross); the outside of the wall is a
 mark_cross = 'last'       # which gapA = isoValue crossing becomes 0: 'last' = outer side of the wall, 'first' = inner side
 
 # ******************************************************
-RelaxingBubble_ABWallEvolation_PlotSwitch = 'ON'
-out_dir = '/home/heidi/Documents/dyGiLa-project/dyGiLa-visualization-images/B-phase-Bubble/RelaxingCriticalBubbleConf-p27-T0.9275-Aali-cycle_001116'
+RelaxingBubble_ABWallEvolation_PlotSwitch = 'OFF'
+out_dir = '/home/heidi/Documents/dyGiLa-project/dyGiLa-visualization-images/B-phase-Bubble/RelaxingCriticalBubbleConf-EvolveExtraction-p27-T0.9275-Aali-cycle_001116'
 
 xi0   = 1.0         # x axis = signed_dist / xi0. Keep 1.0 if your data are already in xi_GL^0
 ylim  = (-0.5, 5.5)      # set to None for automatic y range
@@ -72,14 +76,11 @@ bubble_cross = 'first'    # which crossing is 0: 'first' = outer face of the wal
 # plot configuration
 fig_size  = (8, 5.5)     # figure size in inches (width, height)
 fig_dpi   = 300          # resolution of the saved file
-save_path = '/home/heidi/Documents/dyGiLa-project/dyGiLa-visualization-images/B-phase-Bubble/BBubble-EvolveExtraction-lPerpTOParallelwWall-FlatWall-config-27bar-T0.4Tc.png'   # .png, .pdf or .svg; None = do not save
+save_path = '/home/heidi/Documents/dyGiLa-project/dyGiLa-visualization-images/B-phase-Bubble/BBubble-l-perp-w-Wall-FlatWall-config-27bar-T0.4Tc.png'   # .png, .pdf or .svg; None = do not save
 
 # plot box position inside the figure, as fractions of the figure (0 to 1)
 box_left, box_right, box_bottom, box_top = 0.15, 0.97, 0.15, 0.98
 # box_left, box_right, box_bottom, box_top = 0.15, 0.97, 0.05, 0.80
-
-
-# ======================================================
 
 # =====================================================
 #  plot enviriment
@@ -141,7 +142,9 @@ if RelaxingBubble_ABWallEvolation_PlotSwitch == 'ON':
         # ||A|| = sqrt( sum_ij (ReA_ij^2 + ImA_ij^2) ); computed first, because it locates r = 0
         gapA_b = np.sqrt((d[cols_u]**2).sum(axis=1, skipna=False)
                          + (d[cols_v]**2).sum(axis=1, skipna=False))
+        print("gapA_b : ", gapA_b)
 
+        
         x_raw = d['signed_dist'].to_numpy()
         x0 = 0.0
         if bubble_shift == 'auto':
@@ -219,26 +222,27 @@ if FlatABWalls_PlotSwitch == 'ON':
         d = FABW_data_dict[axis]
         r = d[:, 0].real                           # first column: r (real part)
         A = d[:, 1:]                               # next 9 columns: A11 ... A33 (complex)
+        # A = d[:, 1:]                               # scale with a number to match intact bubble, next 9 columns: A11 ... A33 (complex)        
 
         # NEW: gapA = sqrt( sum_ij |A_ij|^2 ), computed for every r
         gapA_M = np.sqrt((np.abs(A)**2).sum(axis=1))
 
         # NEW: shift r so that the gapA = gapA_isoValue crossing is at 0
-        r_cross = crossing(r, gapA_M, gapA_isoValue, which=mark_cross)
+        r_cross = crossing(r, gapA_M, gapA_isoValue_FlatWall, which=mark_cross)
         xm = mark_sign * (r - r_cross) / xi0
         print(f'Mark axis {axis}: gapA crossing ({mark_cross}) at r =', r_cross)
 
         # NEW: same cutoff as for the other data
         keep_m = (xm <= r_max) if r_max is not None else np.ones(len(xm), dtype=bool)
 
-        ax.plot(xm[keep_m], gapA_M[keep_m], color=gapA_color_mark, ls='-', lw=LineWidth,
+        ax.plot(xm[keep_m], 1.9*gapA_M[keep_m], color=gapA_color_mark, ls='-', lw=LineWidth,
                 marker=markers[axis] if mark_markers else 'none', ms=ms, markevery=every)
         gapA_handles.append(Line2D([], [], color=gapA_color_mark, ls='-', lw=LineWidth,
                                    label=r'$||A||$, ' + axes_name[axis]))        
         for k, c in enumerate(comps):
-            ax.plot(xm[keep_m], A[keep_m, k].real, color=color_of[c], ls='-', lw=LineWidth,
+            ax.plot(xm[keep_m], 1.9*A[keep_m, k].real, color=color_of[c], ls='-', lw=LineWidth,
                     marker=markers[axis] if mark_markers else 'none', ms=ms, markevery=every)
-            ax.plot(xm[keep_m], A[keep_m, k].imag, color=color_of[c], ls='--', lw=LineWidth,
+            ax.plot(xm[keep_m], 1.9*A[keep_m, k].imag, color=color_of[c], ls='--', lw=LineWidth,
                     marker=markers[axis] if mark_markers else 'none', ms=ms, markevery=every,
                     markerfacecolor='none')            
 
